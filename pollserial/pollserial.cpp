@@ -128,12 +128,13 @@ void pollserial::flush() {
 	rxbuffer.head = rxbuffer.tail;
 }
 
-void pollserial::write(uint8_t c) {
-#if defined ( UDR0 )
-	while (!((UCSR0A) & _BV(UDRE0)));
-	UDR0 = c;
-#else
-	while (!((UCSRA) & _BV(UDRE)));
-	UDR = c;
-#endif
+size_t pollserial::write(uint8_t c) {
+    #if defined ( UDR0 )
+	    while (!((UCSR0A) & _BV(UDRE0)));
+	    UDR0 = c;
+    #else
+	    while (!((UCSRA) & _BV(UDRE)));
+	    UDR = c;
+    #endif
+    return 1;
 }
